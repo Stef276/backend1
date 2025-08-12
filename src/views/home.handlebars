@@ -1,6 +1,21 @@
-<h1>Lista de productos</h1>
-<ul>
-  {{#each products}}
-    <li>{{this.id}} - {{this.name}} - ${{this.price}}</li>
+<h1>Productos</h1>
+{{#if data}}
+  <p>Página {{data.page}} de {{data.totalPages}}</p>
+  <ul>
+  {{#each data.payload}}
+    <li>{{this.title}} - ${{this.price}} - <a href="/products/{{this._id}}">Ver</a>
+      <form method="post" action="/api/carts/DEFAULT_CART/products/{{this._id}}" style="display:inline;">
+        <button type="submit">Agregar al carrito</button>
+      </form>
+    </li>
   {{/each}}
-</ul>
+  </ul>
+  {{#if data.hasPrevPage}}
+    <a href="/products?page={{data.prevPage}}">Anterior</a>
+  {{/if}}
+  {{#if data.hasNextPage}}
+    <a href="/products?page={{data.nextPage}}">Siguiente</a>
+  {{/if}}
+{{else}}
+  <p>No hay datos</p>
+{{/if}}
